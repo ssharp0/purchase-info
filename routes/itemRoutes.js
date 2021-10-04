@@ -14,6 +14,13 @@ router.post('/items', passport.authenticate('jwt'), async function (req, res) {
   res.json(item)
 })
 
+// add bulk for indexedDB offline
+router.post('/items/bulk', passport.authenticate('jwt'), async function (req, res) {
+  const items = await Item.create(req.body.map(item => ({ ...item, user: req.user._id })))
+  await User.findByIdAndUpdate(req.user._id, { $push: { items: { $each: items.map(item => item._id) } } })
+  res.json(items)
+})
+
 router.put('/items/:id', passport.authenticate('jwt'), async function (req, res) {
   await Item.findByIdAndUpdate(req.params.id, { $set: req.body })
   res.sendStatus(200)

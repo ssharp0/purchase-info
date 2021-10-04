@@ -1,5 +1,12 @@
 const { axios } = window
 
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(reg => console.log('Service Worker registered', reg))
+  })
+}
+
 document.getElementById('goHome').addEventListener('click', () => {
   window.location = '/index.html'
 })

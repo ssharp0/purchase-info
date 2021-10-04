@@ -1,0 +1,15 @@
+{
+ "name": "To-Do List App",
+ "short_name": "ToDo App",
+ "theme_color": "#ffffff",
+ "background_color": "#ffffff",
+ "start_url": "/",
+ "display": "standalone",
+ "icons": [
+  {
+   "src": "assets/icons/todo_icon.png",
+   "sizes": "150x150",
+   "type": "image/png"
+  }
+ ]
+}

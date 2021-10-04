@@ -1,5 +1,43 @@
 const { axios } = window
 
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(reg => console.log('Service Worker registered', reg))
+  })
+}
+
+// document.getElementById('createItem').addEventListener('click', event => {
+//   event.preventDefault()
+
+//   axios.post('/api/items', 
+//   {
+//     product: document.getElementById('product').value,
+//     amznUrl: document.getElementById('amznUrl').value,
+//     youtubeUrl: document.getElementById('youtubeUrl').value,
+//     isWatched: false
+//   }, 
+//   {
+//     headers: {
+//       Authorization: `Bearer ${localStorage.getItem('token')}`
+//     }
+//   })
+//     .then(({ data: { _id, product, amznUrl, youtubeUrl, isWatched } }) => {
+//       const itemElem = document.createElement('li')
+//       itemElem.className = 'd-flex justify-content-between align-items-start mb-2 listItem'
+//       itemElem.innerHTML = `
+//         <div class="ms-2 me-auto">
+//           <div class="fw-bold">${product}</div>
+//           <a href="${amznUrl}">Amazon Link</a>
+//           <a href="${youtubeUrl}">Youtube Link</a>
+//         </div>
+//         <button class="isWatched" data-id="${_id}">${isWatched ? 'Watched' : 'Not Watched'}</button>
+//       `
+//       document.getElementById('items').append(itemElem)
+//     })
+//     .catch(err => console.error(err))
+// })
+
 document.getElementById('createItem').addEventListener('click', event => {
   event.preventDefault()
 
@@ -28,7 +66,20 @@ document.getElementById('createItem').addEventListener('click', event => {
       `
       document.getElementById('items').append(itemElem)
     })
-    .catch(err => console.error(err))
+    .catch(err => {
+      console.error(err)
+      saveRecord(item)
+      const itemElem = document.createElement('li')
+      itemElem.className = 'd-flex justify-content-between align-items-start mb-2 listItem'
+      itemElem.innerHTML = `
+        <div class="ms-2 me-auto">
+          <div class="fw-bold">${product}</div>
+          <a href="${amznUrl}">Amazon Link</a>
+          <a href="${youtubeUrl}">Youtube Link</a>
+        </div>
+        <button class="isWatched" data-id="${_id}">${isWatched ? 'Watched' : 'Not Watched'}</button>
+      `
+    })
 })
 
 document.getElementById('goHome').addEventListener('click', () => {
